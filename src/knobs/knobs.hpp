@@ -5,26 +5,23 @@
 
 namespace knobs {
     // Constants
-    constexpr uint32_t MAX_SENSITIVITY = 48*3;            // Maximum value of the sensitivity potentiometer
-    constexpr uint32_t MIN_SENSITIVITY = 0;               // Minimum value of the sensitivity potentiometer
-    constexpr uint32_t SENSITIVITY_NOCROSSTALK = 10000;    // Sensitivity value to avoid crosstalk
+    constexpr uint32_t MAX_SPEED_CORR = 5;           // Maximum value of the speed correction potentiometer, in RPM
+    constexpr uint32_t MIN_SPEED_CORR = -MAX_SPEED_CORR;          // Maximum value of the speed correction potentiometer, in RPM
 
     // Pinout
-    constexpr uint8_t SENSITIVITY_PIN =     21;          // Pin for the sensitivity potentiometer
-    constexpr uint8_t THRESHOLD_PIN =       19;          // Pin for the threshold potentiometer
-    constexpr uint8_t MODE_PIN =            11;          // Pin for the mode button
-    constexpr uint8_t ZERO_PIN =            10;          // Pin for the zero button
+    constexpr uint8_t SPEED_PIN =       A1;          // Pin for the speed potentiometer
+    constexpr uint8_t SPEED_VCC_PIN =   A2;          // VCC pin for the speed potentiometer
+    constexpr uint8_t SPEED_GND_PIN =   A0;          // GND pin for the speed potentiometer
+    constexpr uint8_t START_PIN =       11;          // Pin for the start/stop button
 
     // Global variables declaration
-    extern uint32_t sensitivity;
-    extern uint32_t threshold;
+    extern uint32_t speed;
     extern bool tare_needed;
-    extern bool mode_button_pressed;
+    extern bool start_button_pressed;
 
     // Function prototypes
     void setup(void);
-    int get_sensitivity();
-    int get_threshold();
+    int get_speed_correction();
     
 } // namespace knobs
 
