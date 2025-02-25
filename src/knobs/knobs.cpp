@@ -13,10 +13,10 @@ void setup() {
 
     // Configure SPEED potentiometer pins
     pinMode(SPEED_PIN, INPUT);
-    pinMode(SPEED_VCC_PIN, OUTPUT);
-    digitalWrite(SPEED_VCC_PIN, HIGH);
-    pinMode(SPEED_GND_PIN, OUTPUT);
-    digitalWrite(SPEED_GND_PIN, LOW);
+    // pinMode(SPEED_VCC_PIN, OUTPUT);
+    // digitalWrite(SPEED_VCC_PIN, HIGH);
+    // pinMode(SPEED_GND_PIN, OUTPUT);
+    // digitalWrite(SPEED_GND_PIN, LOW);
 
     // Configure external interrupt on INT0 (pin 2)
     EICRA |= (1 << ISC01);  // Falling edge detection on INT0
