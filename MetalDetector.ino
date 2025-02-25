@@ -39,7 +39,7 @@ void setup() {
     leds::setup();
 
     // Play startup animation
-    // leds::
+    leds::animate();
 }
 
 

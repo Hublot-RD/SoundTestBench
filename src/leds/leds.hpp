@@ -10,7 +10,9 @@ namespace leds {
     constexpr uint8_t BRIGHTNESS = 100;     // LEDs brightness, 0-255
 
     // Pinout
-    constexpr uint8_t LEDS_PIN = 20;          // Pins for the 8 LEDs
+    constexpr uint8_t LEDS_VCC = 7;          // VCC pin for the 8 LEDs
+    constexpr uint8_t LEDS_GND = 5;          // Ground pin for the 8 LEDs
+    constexpr uint8_t LEDS_PIN = 6;          // Data pin for the 8 LEDs
 
     // Colors
     #define RED   CHSV(HSVHue::HUE_RED, 255, BRIGHTNESS)
@@ -22,8 +24,7 @@ namespace leds {
 
     // Function prototypes
     void setup(void);
-    void set_from_pulse(uint32_t time_shifting[NUM_LEDS], uint32_t threshold, bool active_coils[NUM_LEDS]);
-    void set_tare();
+    // void set_from_pulse(uint32_t time_shifting[NUM_LEDS], uint32_t threshold, bool active_coils[NUM_LEDS]);
     void set_mode(uint8_t mode);
     void set(uint8_t channel, CHSV color);
     void animate(void);

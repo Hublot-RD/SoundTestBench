@@ -14,11 +14,11 @@ constexpr uint32_t SERIAL_BAUD_RATE = 115200;
 
 void setup() {
     // Open serial communications on the native USB port
-    if(DEBUG) {SerialUSB.begin(SERIAL_BAUD_RATE);while(!SerialUSB);}
+    if(DEBUG) {Serial.begin(SERIAL_BAUD_RATE);while(!Serial);}
 
     // Setup the library
     leds::setup();
-    if(DEBUG) {SerialUSB.println("Setup complete");}
+    if(DEBUG) {Serial.println("Setup complete");}
 
     // Test the function
     uint32_t pulses[leds::NUM_LEDS];
