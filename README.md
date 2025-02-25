@@ -1,5 +1,3 @@
-# Software for the Metal Detector
+# Software for the test bench
 
-The code is made for the Adruino Nano 33 IoT.
-
-The metal detector uses the Pulse Induction principle.
+This software is made to control two brushless DC motors from an Arduino Uno with the motor shield. The user interface is made of one button, one rotary knob and 8 RGB LEDs.
