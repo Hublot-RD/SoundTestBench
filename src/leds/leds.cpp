@@ -10,37 +10,31 @@ void setup(void) {
     */
     // Setup the LED stick
     FastLED.addLeds<NEOPIXEL,LEDS_PIN>(led_stick, NUM_LEDS);
+    pinMode(LEDS_GND, OUTPUT);
+    pinMode(LEDS_VCC, OUTPUT);
+    digitalWrite(LEDS_GND, LOW);
+    digitalWrite(LEDS_VCC, HIGH);
 }
 
-void set_from_pulse(uint32_t time_shifting[NUM_LEDS], uint32_t threshold, bool active_coils[NUM_LEDS]) {
+void set_from_potentiometer(uint16_t potentiometer_value) {
     /**
-     * @brief Set the LEDs color based on the time shifting values
+     * @brief Set the LEDs color based on the potentiometer value
      * 
-     * @param time_shifting: Array of time shifting values
-     * @param threshold: Time shifting threshold value to determine the color (in the same unit as the time shifting values)
-     * @param active_coils: Array of active coils. Inactive coils are set to black
+     * @param potentiometer_value: Potentiometer value to determine the color [0, 1023]
     */
-    for (uint8_t i = 0; i < NUM_LEDS; i++) {
-        uint8_t coil = i;//NUM_LEDS - i - 1;
-        if(!active_coils[coil]) {
+    potentiometer_value++; // To have at least one LED ON, and achieve full LEDs ON when potentiometer_value = 1023
+    
+    for(uint8_t i = 0; i < NUM_LEDS; i++) {
+        if(potentiometer_value >= 1024/NUM_LEDS*(i+1)) { // LED is fully ON
+            led_stick[i] = WHITE;
+        } 
+        else if (potentiometer_value >= 1024/NUM_LEDS*(i)) { // LED is partially ON
+            uint8_t color_hue = (potentiometer_value - 1024/NUM_LEDS*i) * HSVHue::HUE_BLUE / (1024/NUM_LEDS);
+            led_stick[i] = CHSV(color_hue, 255, BRIGHTNESS);
+        }
+        else { // LED is fully OFF
             led_stick[i] = BLACK;
-            continue;
         }
-        if(time_shifting[coil] > threshold) {
-            led_stick[i] = GREEN;
-        } else {
-            led_stick[i] = RED;
-        }
-    }
-    FastLED.show();
-}
-
-void set_tare() {
-    /**
-     * @brief Set the LEDs color to white
-    */
-    for (uint8_t i = 0; i < NUM_LEDS; i++) {
-        led_stick[i] = YELLOW;
     }
     FastLED.show();
 }
