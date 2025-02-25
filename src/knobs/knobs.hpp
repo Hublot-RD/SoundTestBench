@@ -5,7 +5,7 @@
 
 namespace knobs {
     // Constants
-    constexpr int32_t MAX_SPEED_CORR = 5000;        // Maximum value of the speed correction potentiometer, in mRPM
+    constexpr int32_t MAX_SPEED_CORR = 20000;        // Maximum value of the speed correction potentiometer, in mRPM
     constexpr int32_t MIN_SPEED_CORR = -MAX_SPEED_CORR;          // Maximum value of the speed correction potentiometer, in mRPM
 
     // Pinout
