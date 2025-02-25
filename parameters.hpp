@@ -8,4 +8,8 @@
 #define DEBUG             true    // Enable debug messages
 #define SERIAL_BAUD_RATE  115200  // Baud rate for the USB communication
 
+// Motor parameters
+#define A_NOMINAL_SPEED  60000   // Nominal speed of motor A [mRPM]
+#define B_NOMINAL_SPEED  60000   // Nominal speed of motor B [mRPM]
+
 #endif // PARAMETERS_H

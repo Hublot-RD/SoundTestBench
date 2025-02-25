@@ -6,6 +6,9 @@ namespace knobs {
 bool start_button_pressed = false;
 
 void setup() {
+    /**
+     * @brief Setup the knobs library.
+     */
     cli(); // Disable global interrupts
 
     // Configure START button pins
@@ -31,7 +34,7 @@ int32_t get_speed_correction() {
      * @brief Get the value of the speed correction according to potentiometer.
      * 
      * @return int32_t The value of the speed correction, in mRPM. Range: MIN_SPEED_CORR to MAX_SPEED_CORR
-    */
+     */
     int32_t tmp = analogRead(SPEED_PIN)/1023.0 * (MAX_SPEED_CORR - MIN_SPEED_CORR) + MIN_SPEED_CORR;
     if(tmp < MIN_SPEED_CORR) {
         return MIN_SPEED_CORR;

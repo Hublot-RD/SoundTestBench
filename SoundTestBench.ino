@@ -25,7 +25,7 @@ Outputs:
 // Global variables
 
 // Function prototypes
-// void apply_mode(uint8_t mode);
+void set_motor_speed(uint32_t A_speed, uint32_t B_speed, uint32_t speed_correction);
 
 void setup() {
     // Open serial communications on the native USB port
@@ -45,9 +45,7 @@ void loop() {
     // Define static variables
     static uint8_t display_should_stay_x_cycles = 0; // Number of cycles the display should stay on the current state. Used when changing the mode or taring
     static bool is_running = false;
-    // static uint8_t mode = 0; // Mode of the system
 
-    Serial.print("Sensitivity: "); Serial.println(analogRead(knobs::SPEED_PIN));
     // Update the display
     if(display_should_stay_x_cycles > 0) {
         display_should_stay_x_cycles--;
@@ -55,29 +53,18 @@ void loop() {
         leds::set_from_potentiometer(analogRead(knobs::SPEED_PIN));
     }
 
-
     // Update according to knobs
-    // uint16_t thrsh = pulse::set_threshold(knobs::get_threshold());
-    // time_shifting_threshold = knobs::get_sensitivity();
-    // if(DEBUG) {
-    //     Serial.print("Sensitivity: "); Serial.println(time_shifting_threshold);
-    //     Serial.print("Threshold: "); Serial.println(thrsh);
-    // }
-    // if(knobs::mode_button_pressed) {
-    //     mode = (mode + 1) % 4;
-    //     apply_mode(mode, &display_should_stay_x_cycles);
-    //     knobs::mode_button_pressed = false;
-    // }
+    if(is_running) {set_motor_speed(A_NOMINAL_SPEED, B_NOMINAL_SPEED, knobs::get_speed_correction());}
 
     // Start/stop if necessary
     if(knobs::start_button_pressed) {
         display_should_stay_x_cycles = 1*LOOP_FREQ_HZ;
         if(is_running) {
-            motor::stop(true);
+            motor::stop(true); motor::stop(false);
             is_running = false;
         }
         else {
-            motor::set_speed(80000, true);
+            set_motor_speed(A_NOMINAL_SPEED, B_NOMINAL_SPEED, knobs::get_speed_correction());
             is_running = true;    
         }
         delay(300); // To avoid double presses
@@ -88,42 +75,21 @@ void loop() {
     delay(1000/LOOP_FREQ_HZ);
 }
 
-// void apply_mode(uint8_t mode, uint8_t *display_should_stay_x_cycles) {
-//     /**
-//      * @brief Apply a mode to the system
-//      * 
-//      * @param mode: Mode to apply
-//      */
-//     if(mode > 7) {return;} // Invalid mode
+void set_motor_speed(uint32_t A_speed, uint32_t B_speed, int32_t speed_correction) {
+    /**
+     * @brief Set the speed of the motors.
+     * 
+     * @param A_speed: Speed of motor A, in mRPM
+     * @param B_speed: Speed of motor B, in mRPM
+     * @param speed_correction: Speed correction, in mRPM
+     * 
+     * @note The speed correction is applied to the motor A only.
+     */
+    // Set the speed of the motors
+    motor::set_speed(A_speed + speed_correction, true);
+    motor::set_speed(B_speed, false);
 
-//     switch(mode) {
-//         case 0:
-//             // All coil mode
-//             for (uint8_t i = 0; i < pulse::NB_COILS; i++) {
-//                 desired_channels[i] = (i == 0 || i == 1 || i == 2 || i == 3) ? true : false;
-//             }
-//             break;
-//         case 1:
-//             // Outter coil mode
-//             for (uint8_t i = 0; i < pulse::NB_COILS; i++) {
-//                 desired_channels[i] = (i == 0) ? true : false;
-//             }
-//             break;
-//         case 2:
-//             // Inner coil mode
-//             for (uint8_t i = 0; i < pulse::NB_COILS; i++) {
-//                 desired_channels[i] = (i == 1 || i == 2 || i == 3) ? true : false;
-//             }
-//             break;
-//         case 3:
-//             // Inner coil mode
-//             for (uint8_t i = 0; i < pulse::NB_COILS; i++) {
-//                 desired_channels[i] = (i == 1) ? true : false;
-//             }
-//             break;
-//         default:
-//             break;
-//     }
-//     *display_should_stay_x_cycles = 1*LOOP_FREQ_HZ;
-//     leds::set_mode(mode);
-// }
+    Serial.print("A: "); Serial.print(A_speed + speed_correction); Serial.print(" mRPM\t");
+    Serial.print("B: "); Serial.print(B_speed); Serial.print(" mRPM\t");
+    Serial.print("Correction: "); Serial.print(speed_correction); Serial.println(" mRPM");
+}
