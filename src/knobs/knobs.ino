@@ -14,16 +14,17 @@ constexpr uint32_t SERIAL_BAUD_RATE = 115200;
 
 void setup() {
     // Open serial communications on the native USB port
-    if(DEBUG) {SerialUSB.begin(SERIAL_BAUD_RATE);while(!SerialUSB);}
+    if(DEBUG) {Serial.begin(SERIAL_BAUD_RATE);while(!Serial);}
 
     // Setup the library
     knobs::setup();
-    if(DEBUG) {SerialUSB.println("Setup complete");}
+    if(DEBUG) {Serial.println("Setup complete");}
 }
 
 
 void loop() {
-    SerialUSB.print("Sensitivity: "); SerialUSB.println(knobs::get_sensitivity());
-    SerialUSB.print("Threshold: "); SerialUSB.println(knobs::get_threshold());
+    Serial.print("Speed correction: "); Serial.println(knobs::get_speed_correction());
+    Serial.print("Start button pressed: "); Serial.println(knobs::start_button_pressed);
+    
     delay(1000);
 }
