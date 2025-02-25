@@ -10,8 +10,6 @@ void setup() {
 
     // Configure START button pins
     pinMode(START_PIN, INPUT_PULLUP);
-    pinMode(START_GND_PIN, OUTPUT);
-    digitalWrite(START_GND_PIN, LOW);
 
     // Configure SPEED potentiometer pins
     pinMode(SPEED_PIN, INPUT);

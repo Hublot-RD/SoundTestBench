@@ -13,7 +13,6 @@ namespace knobs {
     constexpr uint8_t SPEED_VCC_PIN =   A2;          // VCC pin for the speed potentiometer
     constexpr uint8_t SPEED_GND_PIN =   A0;          // GND pin for the speed potentiometer
     constexpr uint8_t START_PIN =       2;          // Pin for the start/stop button
-    constexpr uint8_t START_GND_PIN =   3;          // Pin for the start/stop button
 
     // Global variables declaration
     extern bool start_button_pressed;
