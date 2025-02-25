@@ -29,6 +29,6 @@ namespace leds {
     void set(uint8_t channel, CHSV color);
     void animate(void);
     
-} // namespace knobs
+} // namespace leds
 
 #endif // LEDS_H
