@@ -16,28 +16,28 @@ void setup(void) {
     digitalWrite(LEDS_VCC, HIGH);
 }
 
-// void set_from_pulse(uint32_t time_shifting[NUM_LEDS], uint32_t threshold, bool active_coils[NUM_LEDS]) {
-//     /**
-//      * @brief Set the LEDs color based on the time shifting values
-//      * 
-//      * @param time_shifting: Array of time shifting values
-//      * @param threshold: Time shifting threshold value to determine the color (in the same unit as the time shifting values)
-//      * @param active_coils: Array of active coils. Inactive coils are set to black
-//     */
-//     for (uint8_t i = 0; i < NUM_LEDS; i++) {
-//         uint8_t coil = i;//NUM_LEDS - i - 1;
-//         if(!active_coils[coil]) {
-//             led_stick[i] = BLACK;
-//             continue;
-//         }
-//         if(time_shifting[coil] > threshold) {
-//             led_stick[i] = GREEN;
-//         } else {
-//             led_stick[i] = RED;
-//         }
-//     }
-//     FastLED.show();
-// }
+void set_from_potentiometer(uint16_t potentiometer_value) {
+    /**
+     * @brief Set the LEDs color based on the potentiometer value
+     * 
+     * @param potentiometer_value: Potentiometer value to determine the color [0, 1023]
+    */
+    potentiometer_value++; // To have at least one LED ON, and achieve full LEDs ON when potentiometer_value = 1023
+    
+    for(uint8_t i = 0; i < NUM_LEDS; i++) {
+        if(potentiometer_value >= 1024/NUM_LEDS*(i+1)) { // LED is fully ON
+            led_stick[i] = WHITE;
+        } 
+        else if (potentiometer_value >= 1024/NUM_LEDS*(i)) { // LED is partially ON
+            uint8_t color_hue = (potentiometer_value - 1024/NUM_LEDS*i) * HSVHue::HUE_BLUE / (1024/NUM_LEDS);
+            led_stick[i] = CHSV(color_hue, 255, BRIGHTNESS);
+        }
+        else { // LED is fully OFF
+            led_stick[i] = BLACK;
+        }
+    }
+    FastLED.show();
+}
 
 void set_mode(uint8_t mode){
     /**

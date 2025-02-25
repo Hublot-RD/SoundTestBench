@@ -24,7 +24,7 @@ namespace leds {
 
     // Function prototypes
     void setup(void);
-    // void set_from_pulse(uint32_t time_shifting[NUM_LEDS], uint32_t threshold, bool active_coils[NUM_LEDS]);
+    void set_from_potentiometer(uint16_t potentiometer_value);
     void set_mode(uint8_t mode);
     void set(uint8_t channel, CHSV color);
     void animate(void);
