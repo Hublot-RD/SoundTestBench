@@ -83,13 +83,15 @@ void set_motor_speed(uint32_t A_speed, uint32_t B_speed, int32_t speed_correctio
      * @param B_speed: Speed of motor B, in mRPM
      * @param speed_correction: Speed correction, in mRPM
      * 
-     * @note The speed correction is applied to the motor A only.
+     * @note The speed correction is applied to the motor B only.
      */
     // Set the speed of the motors
-    motor::set_speed(A_speed + speed_correction, true);
-    motor::set_speed(B_speed, false);
+    motor::set_speed(A_speed, true);
+    motor::set_speed(B_speed + speed_correction, false);
 
-    Serial.print("A: "); Serial.print(A_speed + speed_correction); Serial.print(" mRPM\t");
-    Serial.print("B: "); Serial.print(B_speed); Serial.print(" mRPM\t");
-    Serial.print("Correction: "); Serial.print(speed_correction); Serial.println(" mRPM");
+    if(DEBUG) {
+        Serial.print("A: "); Serial.print(A_speed + speed_correction); Serial.print(" mRPM\t");
+        Serial.print("B: "); Serial.print(B_speed); Serial.print(" mRPM\t");
+        Serial.print("Correction: "); Serial.print(speed_correction); Serial.println(" mRPM");
+    }
 }
